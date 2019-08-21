@@ -66,7 +66,7 @@ namespace AFKDiscordBot
             using (var client = new DiscordShardedClient())
             {
                 client.UserVoiceStateUpdated += UserVoiceStateUpdatedAsync;
-                await client.LoginAsync(TokenType.Bot, "");
+                await client.LoginAsync(TokenType.Bot, token);
                 await client.StartAsync();
 
                 while (!cts.Token.IsCancellationRequested)
