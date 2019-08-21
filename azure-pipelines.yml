@@ -23,7 +23,7 @@ steps:
   inputs:
     command: 'publish'
     projects: '**/*.csproj'
-    arguments: '-c Release -o $(Build.ArtifactStagingDirectory)'
+    arguments: '-c Release --self-contained -r linux-x64 -o $(Build.ArtifactStagingDirectory)'
     publishWebProjects: false
     zipAfterPublish: false
     modifyOutputPath: false    
