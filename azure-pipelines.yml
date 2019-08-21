@@ -11,17 +11,22 @@ pool:
 container: mcr.microsoft.com/dotnet/core/sdk:2.2
 
 steps:
-- task: UseDotNet@2
-  displayName: 'Use .NET Core sdk'
-  inputs:
-    packageType: sdk
-    version: 2.2.401
-    installationPath: $(Agent.ToolsDirectory)/dotnet
-    includePreviewVersions: true
-
 - task: DotNetCoreCLI@2
   displayName: Build
   inputs:
     command: build
     projects: '**/*.csproj'
     arguments: '--configuration Release'
+
+- task: DotNetCoreCLI@2
+  displayName: Publish
+  inputs:
+    command: publish
+    projects: '**/*.csproj'
+    arguments: '-c Release -o $(Build.ArtifactStagingDirectory)'
+  
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'Package'
+    publishLocation: 'Container'
