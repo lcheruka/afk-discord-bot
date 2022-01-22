@@ -1,0 +1,35 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- master
+
+pool:
+  vmImage: 'ubuntu-16.04'
+container: mcr.microsoft.com/dotnet/core/sdk:2.2
+
+steps:
+- task: DotNetCoreCLI@2
+  displayName: Build
+  inputs:
+    command: build
+    projects: '**/*.csproj'
+    arguments: '--configuration Release'
+
+- task: DotNetCoreCLI@2
+  displayName: Publish
+  inputs:
+    command: 'publish'
+    projects: '**/*.csproj'
+    arguments: '-c Release --self-contained -r linux-x64 -o $(Build.ArtifactStagingDirectory)'
+    publishWebProjects: false
+    zipAfterPublish: false
+    modifyOutputPath: false    
+  
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'Package'
+    publishLocation: 'Container'
