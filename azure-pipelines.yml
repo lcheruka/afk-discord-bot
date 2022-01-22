@@ -7,8 +7,8 @@ trigger:
 - master
 
 pool:
-  vmImage: 'ubuntu-16.04'
-container: mcr.microsoft.com/dotnet/core/sdk:2.2
+  vmImage: 'ubuntu-20.04'
+container: mcr.microsoft.com/dotnet/sdk:6.0
 
 steps:
 - task: DotNetCoreCLI@2
